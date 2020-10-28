@@ -153,7 +153,8 @@ def check_login(username, password):
         # Fill in the SQL below in a manner similar to Wk 08 Lab to log the user in #
         #############################################################################
 
-        sql = """
+        sql =
+        """
         Select *
         FROM mediaserver.UserAccount
         Where username= %s
