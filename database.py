@@ -237,7 +237,9 @@ def user_playlists(username):
         # Fill in the SQL below and make sure you get all the playlists for this user #
         ###############################################################################
         sql = """
-
+        SELECT song_title
+        FROM MediaCollection natural join Song
+        WHERE username=%s
         """
 
 
@@ -279,6 +281,9 @@ def user_podcast_subscriptions(username):
         #################################################################################
 
         sql = """
+        SELECT username,podcast_title
+        FROM Subscribed_Podcasts natural join Podcast
+        WHERE username=%s
         """
 
 
@@ -517,6 +522,9 @@ def get_alltvshows():
         # Fill in the SQL below with a query to get all tv shows and episode counts #
         #############################################################################
         sql = """
+        SELECT tvshow_title, count(tvshow_episode_title)
+        FROM TVSHOW natural join TVEpisode
+        GROUP BY tvshow_title
         """
 
         r = dictfetchall(cur,sql)
@@ -628,6 +636,9 @@ def get_song(song_id):
         # and the artists that performed it                                         #
         #############################################################################
         sql = """
+        SELECT *
+        FROM song natural join Song_Artists
+        WHERE song_id = %s
         """
 
         r = dictfetchall(cur,sql,(song_id,))
@@ -667,6 +678,10 @@ def get_song_metadata(song_id):
         #############################################################################
 
         sql = """
+        SELECT md_id ,md_type_id,md_value
+        FROM song natural join AlbumMetaData natural join  MetaData
+        WHERE song_id = %s
+
         """
 
         r = dictfetchall(cur,sql,(song_id,))
@@ -706,6 +721,9 @@ def get_podcast(podcast_id):
         # including all metadata associated with it                                 #
         #############################################################################
         sql = """
+        SELECT *
+        FROM Podcast natural join PodcastMetaData
+        where podcast_id = %s
         """
 
         r = dictfetchall(cur,sql,(podcast_id,))
@@ -746,6 +764,9 @@ def get_all_podcasteps_for_podcast(podcast_id):
         #############################################################################
 
         sql = """
+        SELECT *
+        FROM Podcast natural join PodcastEpisode
+        WHERE podcast_id = %s
         """
 
         r = dictfetchall(cur,sql,(podcast_id,))
@@ -786,6 +807,9 @@ def get_podcastep(podcastep_id):
         # podcast episodes and it's associated metadata                             #
         #############################################################################
         sql = """
+        SELECT *
+        FROM Podcast natural join PodcastEpisode natural join PodcastMetaData
+        WHERE podcastep_id = %s
         """
 
         r = dictfetchall(cur,sql,(podcastep_id,))
@@ -826,6 +850,10 @@ def get_album(album_id):
         # including all relevant metadata                                           #
         #############################################################################
         sql = """
+        SELECT *
+        FROM Album  natural join AlbumMetaData
+        WHERE album_id = %s
+
         """
 
         r = dictfetchall(cur,sql,(album_id,))
@@ -866,6 +894,9 @@ def get_album_songs(album_id):
         # songs in an album, including their artists                                #
         #############################################################################
         sql = """
+        SELECT *
+        FROM Album  natural join Album_Songs natural join Song natural join Song_Artists
+        WHERE album_id = %s
         """
 
         r = dictfetchall(cur,sql,(album_id,))
@@ -884,7 +915,7 @@ def get_album_songs(album_id):
 
 
 #####################################################
-#   Query (6)
+#   Query (6)   >????
 #   Get all genres for one album
 #####################################################
 def get_album_genres(album_id):
@@ -906,6 +937,7 @@ def get_album_genres(album_id):
         # genres in an album (based on all the genres of the songs in that album)   #
         #############################################################################
         sql = """
+
         """
 
         r = dictfetchall(cur,sql,(album_id,))
@@ -946,6 +978,10 @@ def get_tvshow(tvshow_id):
         # including all relevant metadata       #
         #############################################################################
         sql = """
+        SELECT *
+        FROM TVShow natural join TVShowMetaData
+        WHERE tvshow_id = %s
+
         """
 
         r = dictfetchall(cur,sql,(tvshow_id,))
@@ -986,6 +1022,9 @@ def get_all_tvshoweps_for_tvshow(tvshow_id):
         # tv episodes in a tv show                                                  #
         #############################################################################
         sql = """
+        SELECT *
+        FROM TVShow natural join TVEpisode
+        WHERE tvshow_id = %s
         """
 
         r = dictfetchall(cur,sql,(tvshow_id,))
@@ -1139,6 +1178,7 @@ def find_matchingmovies(searchterm):
         # that match a given search term                                            #
         #############################################################################
         sql = """
+
         """
 
         r = dictfetchall(cur,sql,(searchterm,))
