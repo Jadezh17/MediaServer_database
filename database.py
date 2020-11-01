@@ -129,7 +129,7 @@ def dictfetchone(cursor,sqltext,params=None):
 
 
 #####################################################
-#   Query (1)
+#   Query (1) - ALICE
 #   Login
 #####################################################
 
@@ -178,7 +178,7 @@ def check_login(username, password):
 
 
 #####################################################
-#   Is Superuser? -
+#   Is Superuser?
 #   is this required? we can get this from the login information
 #####################################################
 
@@ -214,7 +214,7 @@ def is_superuser(username):
     return None
 
 #####################################################
-#   Query (1 b)
+#   Query (1 b) - ALICE
 #   Get user playlists
 #####################################################
 def user_playlists(username):
@@ -259,7 +259,7 @@ def user_playlists(username):
     return None
 
 #####################################################
-#   Query (1 c)
+#   Query (1 c) - ALICE
 #   Get user podcasts
 #####################################################
 def user_podcast_subscriptions(username):
@@ -301,7 +301,7 @@ def user_podcast_subscriptions(username):
     return None
 
 #####################################################
-#   Query (1 c)
+#   Query (1 c) - ALICE
 #   Get user in progress items
 #####################################################
 def user_in_progress_items(username):
@@ -501,7 +501,7 @@ def get_allalbums():
 
 
 #####################################################
-#   Query (3 a,b c)
+#   Query (3 a,b c) - JADE
 #   Get all tvshows
 #####################################################
 def get_alltvshows():
@@ -522,9 +522,9 @@ def get_alltvshows():
         # Fill in the SQL below with a query to get all tv shows and episode counts #
         #############################################################################
         sql = """
-        SELECT tvshow_title, count(tvshow_episode_title)
+        SELECT tvshow_id, tvshow_title, count(tvshow_episode_title)
         FROM TVSHOW natural join TVEpisode
-        GROUP BY tvshow_title
+        GROUP BY tvshow_id,tvshow_title
         """
 
         r = dictfetchall(cur,sql)
@@ -785,7 +785,7 @@ def get_all_podcasteps_for_podcast(podcast_id):
 
 
 #####################################################
-#   Query (8 a,b,c,d,e,f)
+#   Query (8 a,b,c,d,e,f) ------- JADE
 #   Get one podcast ep and associated metadata
 #####################################################
 def get_podcastep(podcastep_id):
@@ -807,8 +807,9 @@ def get_podcastep(podcastep_id):
         # podcast episodes and it's associated metadata                             #
         #############################################################################
         sql = """
-        SELECT *
+        SELECT podcast_id, podcast_title, podcast_uri,podcast_episode_published_date, podcast_episode_length,  md_type_name
         FROM Podcast natural join PodcastEpisode natural join PodcastMetaData
+		natural join MetaDataType
         WHERE podcastep_id = %s
         """
 
@@ -956,7 +957,7 @@ def get_album_genres(album_id):
 
 
 #####################################################
-#   Query (4 a,b)
+#   Query (4 a,b) - JADE
 #   Get one tvshow
 #####################################################
 def get_tvshow(tvshow_id):
@@ -978,8 +979,9 @@ def get_tvshow(tvshow_id):
         # including all relevant metadata       #
         #############################################################################
         sql = """
-        SELECT *
-        FROM TVShow natural join TVShowMetaData
+        SELECT tvshow_title,md_type_name
+        FROM TVShow natural join TVShowMetaData natural join
+		MetaData natural join MetaDataType
         WHERE tvshow_id = %s
 
         """
@@ -1000,7 +1002,7 @@ def get_tvshow(tvshow_id):
 
 
 #####################################################
-#   Query (4 c)
+#   Query (4 c) - JADE
 #   Get all tv show episodes for one tv show
 #####################################################
 def get_all_tvshoweps_for_tvshow(tvshow_id):
