@@ -419,12 +419,16 @@ def single_podcast(podcast_id):
     #############################################################################
     # Fill in the Function below with to do all data handling for a podcast     #
     #############################################################################
-
-    page['title'] = '' # Add the title
-
     # Set up some variables to manage the returns from the database fucntions
+    page['title'] = 'Podcast_id: ' + podcast_id # Add the title
+    podcast = None
+    podcast = database.get_podcast(podcast_id)
 
     # Once retrieved, do some data integrity checks on the data
+    if podcast == None:
+        podcast = []
+
+
 
     # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES
     return render_template('singleitems/podcast.html',
@@ -434,7 +438,7 @@ def single_podcast(podcast_id):
 
 #####################################################
 #   Query 7
-#   Individual Podcast Episode
+#   Individual Podcast Episode ---= JADE
 #####################################################
 @app.route('/podcastep/<media_id>')
 def single_podcastep(media_id):
@@ -445,16 +449,18 @@ def single_podcastep(media_id):
     #########
     # TODO  #
     #########
-
     #############################################################################
     # Fill in the Function below with to do all data handling for a podcast ep  #
     #############################################################################
 
-    page['title'] = '' # Add the title
-
+    page['title'] = 'podcast episoode: ' + media_id # Add the title
     # Set up some variables to manage the returns from the database fucntions
-
+    podcast_ep = None
+    podcast_ep = database.get_podcastep(media_id)
     # Once retrieved, do some data integrity checks on the data
+    if podcast_ep == None:
+        podcast_ep = []
+
 
     # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES
     return render_template('singleitems/podcastep.html',
