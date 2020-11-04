@@ -154,9 +154,10 @@ def check_login(username, password):
         #############################################################################
 
         sql = """
-        
-        
+            SELECT * FROM mediaserver.UserAccount WHERE username = %s AND password = %s;
         """
+        cur.execute(sql, (username, password))
+
         print(username)
         print(password)
 
@@ -233,6 +234,7 @@ def user_playlists(username):
         # Fill in the SQL below and make sure you get all the playlists for this user #
         ###############################################################################
         sql = """
+            SELECT collection_id, collection_name FROM mediaserver.MediaCollection WHERE username = %s;
         
         """
 
@@ -275,8 +277,8 @@ def user_podcast_subscriptions(username):
         #################################################################################
 
         sql = """
+            SELECT * FROM mediaserver.Podcast P JOIN mediaserver.Subscribed_Podcasts SP ON (P.podcast_id = SP.podcast_id) WHERE username = %s;;
         """
-
 
         r = dictfetchall(cur,sql,(username,))
         print("return val is:")
