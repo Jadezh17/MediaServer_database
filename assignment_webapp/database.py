@@ -154,9 +154,12 @@ def check_login(username, password):
         #############################################################################
 
         sql = """
-        
-        
+            SELECT *
+            FROM mediaserver.UserAccount
+            WHERE username = %s AND password = %s;
         """
+        cur.execute(sql, (username, password))
+
         print(username)
         print(password)
 
@@ -233,6 +236,9 @@ def user_playlists(username):
         # Fill in the SQL below and make sure you get all the playlists for this user #
         ###############################################################################
         sql = """
+            SELECT collection_id, collection_name
+            FROM mediaserver.MediaCollection
+            WHERE username = %s;
         
         """
 
@@ -253,7 +259,7 @@ def user_playlists(username):
     return None
 
 #####################################################
-#   Query (1 c)
+#   Query (1 a)
 #   Get user podcasts
 #####################################################
 def user_podcast_subscriptions(username):
@@ -275,8 +281,10 @@ def user_podcast_subscriptions(username):
         #################################################################################
 
         sql = """
+            SELECT *
+            FROM mediaserver.Podcast P JOIN mediaserver.Subscribed_Podcasts SP USING (podcast_id)
+            WHERE username = %s;
         """
-
 
         r = dictfetchall(cur,sql,(username,))
         print("return val is:")
@@ -314,7 +322,9 @@ def user_in_progress_items(username):
         ###################################################################################
 
         sql = """
-
+            SELECT *
+            FROM mediaserver.UserMediaConsumption
+            WHERE progress < 100;
         """
 
         r = dictfetchall(cur,sql,(username,))
@@ -624,6 +634,10 @@ def get_song(song_id):
         # and the artists that performed it                                         #
         #############################################################################
         sql = """
+            SELECT S.song_title, A.artist_name, S.length
+            FROM mediaserver.Song S JOIN mediaserver.Song_Artists SA USING (song_id)
+                JOIN mediaserver.Artist A ON (SA.performing_artist_id = A.artist_id)
+            WHERE S.song_id = %s
         """
 
         r = dictfetchall(cur,sql,(song_id,))
@@ -663,6 +677,12 @@ def get_song_metadata(song_id):
         #############################################################################
 
         sql = """
+        SELECT *
+        FROM ((mediaserver.MetaDataType MDT JOIN mediaserver.MetaData MD USING (md_type_id))
+            JOIN mediaserver.MediaItemMetaData MIMD USING (md_id))
+            JOIN mediaserver.Song S ON (MIMD.media_id = S.song_id)
+        WHERE S.song_id = %s;
+
         """
 
         r = dictfetchall(cur,sql,(song_id,))
@@ -702,6 +722,10 @@ def get_podcast(podcast_id):
         # including all metadata associated with it                                 #
         #############################################################################
         sql = """
+        SELECT *
+        FROM (mediaserver.Podcast P JOIN mediaserver.PodcastMetaData PMD USING (podcast_id))
+            JOIN mediaserver.MetaData M USING (md_id)
+        WHERE P.podcast_id = %s;
         """
 
         r = dictfetchall(cur,sql,(podcast_id,))
@@ -742,6 +766,11 @@ def get_all_podcasteps_for_podcast(podcast_id):
         #############################################################################
         
         sql = """
+        SELECT podcast_id, podcast_episode_title, podcast_episode_URI, podcast_episode_published_date, podcast_episode_length
+        FROM mediaserver.PodcastEpisode PE
+        WHERE PE.podcast_id = %s
+        ORDER BY podcast_episode_published_date DESC
+
         """
 
         r = dictfetchall(cur,sql,(podcast_id,))

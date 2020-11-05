@@ -403,7 +403,7 @@ def single_song(song_id):
                            songmetadata=songmetadata)
 
 #####################################################
-#   Query 6
+#   Query 6 (7?)
 #   Individual Podcast
 #####################################################
 @app.route('/podcast/<podcast_id>')
@@ -420,20 +420,32 @@ def single_podcast(podcast_id):
     # Fill in the Function below with to do all data handling for a podcast     #
     #############################################################################
 
-    page['title'] = '' # Add the title
+    page['title'] = 'Podcast' # Add the title
 
     # Set up some variables to manage the returns from the database fucntions
-    
+    podcast = None
+    podcast = database.get_podcast(podcast_id)
+
+    podcasteps = None
+    podcasteps = get_all_podcasteps_for_podcast(podcast_id)
+
     # Once retrieved, do some data integrity checks on the data
+    if podcast == None:
+        podcast = []
+
+    if podcasteps == None:
+        podcasteps = []
 
     # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES
     return render_template('singleitems/podcast.html',
                            session=session,
                            page=page,
-                           user=user_details)
+                           user=user_details,
+                           podcast=podcast,
+                           podcasteps=poscasteps)
 
 #####################################################
-#   Query 7
+#   Query 7 (8?)
 #   Individual Podcast Episode
 #####################################################
 @app.route('/podcastep/<media_id>')
