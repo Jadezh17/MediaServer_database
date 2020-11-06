@@ -455,24 +455,27 @@ def single_podcastep(media_id):
     Can do this without a login
     """
     #########
-    # TODO  #  
+    # TODO  #
     #########
-
     #############################################################################
     # Fill in the Function below with to do all data handling for a podcast ep  #
     #############################################################################
 
-    page['title'] = '' # Add the title
-
+    page['title'] = 'Podcast episoodes ' # Add the title
     # Set up some variables to manage the returns from the database fucntions
-    
+    podcast_ep = None
+    podcast_ep = database.get_podcastep(media_id)
     # Once retrieved, do some data integrity checks on the data
+    if podcast_ep == None:
+        podcast_ep = []
+
 
     # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES
     return render_template('singleitems/podcastep.html',
                            session=session,
                            page=page,
-                           user=user_details)
+                           user=user_details,
+                           podcast_ep = podcasteps)
 
 
 #####################################################
