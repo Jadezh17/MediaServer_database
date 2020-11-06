@@ -129,7 +129,7 @@ def dictfetchone(cursor,sqltext,params=None):
 
 
 #####################################################
-#   Query (1) - ALICE
+#   Query (1)
 #   Login
 #####################################################
 
@@ -153,13 +153,9 @@ def check_login(username, password):
         # Fill in the SQL below in a manner similar to Wk 08 Lab to log the user in #
         #############################################################################
 
-        sql =
-        """
-        Select *
-        FROM mediaserver.UserAccount
-        Where username= %s
-        AND
-        password= %s;
+        sql = """
+
+
         """
         print(username)
         print(password)
@@ -178,7 +174,7 @@ def check_login(username, password):
 
 
 #####################################################
-#   Is Superuser?
+#   Is Superuser? -
 #   is this required? we can get this from the login information
 #####################################################
 
@@ -214,7 +210,7 @@ def is_superuser(username):
     return None
 
 #####################################################
-#   Query (1 b) - ALICE
+#   Query (1 b)
 #   Get user playlists
 #####################################################
 def user_playlists(username):
@@ -237,9 +233,7 @@ def user_playlists(username):
         # Fill in the SQL below and make sure you get all the playlists for this user #
         ###############################################################################
         sql = """
-        SELECT song_title
-        FROM MediaCollection natural join Song
-        WHERE username=%s
+
         """
 
 
@@ -259,7 +253,7 @@ def user_playlists(username):
     return None
 
 #####################################################
-#   Query (1 c) - ALICE
+#   Query (1 c)
 #   Get user podcasts
 #####################################################
 def user_podcast_subscriptions(username):
@@ -281,9 +275,6 @@ def user_podcast_subscriptions(username):
         #################################################################################
 
         sql = """
-        SELECT username,podcast_title
-        FROM Subscribed_Podcasts natural join Podcast
-        WHERE username=%s
         """
 
 
@@ -301,7 +292,7 @@ def user_podcast_subscriptions(username):
     return None
 
 #####################################################
-#   Query (1 c) - ALICE
+#   Query (1 c)
 #   Get user in progress items
 #####################################################
 def user_in_progress_items(username):
@@ -501,7 +492,7 @@ def get_allalbums():
 
 
 #####################################################
-#   Query (3 a,b c) - JADE
+#   Query (3 a,b c)
 #   Get all tvshows
 #####################################################
 def get_alltvshows():
@@ -636,9 +627,6 @@ def get_song(song_id):
         # and the artists that performed it                                         #
         #############################################################################
         sql = """
-        SELECT *
-        FROM song natural join Song_Artists
-        WHERE song_id = %s
         """
 
         r = dictfetchall(cur,sql,(song_id,))
@@ -678,10 +666,6 @@ def get_song_metadata(song_id):
         #############################################################################
 
         sql = """
-        SELECT md_id ,md_type_id,md_value
-        FROM song natural join AlbumMetaData natural join  MetaData
-        WHERE song_id = %s
-
         """
 
         r = dictfetchall(cur,sql,(song_id,))
@@ -721,9 +705,6 @@ def get_podcast(podcast_id):
         # including all metadata associated with it                                 #
         #############################################################################
         sql = """
-        SELECT *
-        FROM Podcast natural join PodcastMetaData
-        where podcast_id = %s
         """
 
         r = dictfetchall(cur,sql,(podcast_id,))
@@ -764,9 +745,6 @@ def get_all_podcasteps_for_podcast(podcast_id):
         #############################################################################
 
         sql = """
-        SELECT *
-        FROM Podcast natural join PodcastEpisode
-        WHERE podcast_id = %s
         """
 
         r = dictfetchall(cur,sql,(podcast_id,))
@@ -785,7 +763,7 @@ def get_all_podcasteps_for_podcast(podcast_id):
 
 
 #####################################################
-#   Query (8 a,b,c,d,e,f) ------- JADE
+#   Query (8 a,b,c,d,e,f)
 #   Get one podcast ep and associated metadata
 #####################################################
 def get_podcastep(podcastep_id):
@@ -851,10 +829,6 @@ def get_album(album_id):
         # including all relevant metadata                                           #
         #############################################################################
         sql = """
-        SELECT *
-        FROM Album  natural join AlbumMetaData
-        WHERE album_id = %s
-
         """
 
         r = dictfetchall(cur,sql,(album_id,))
@@ -895,9 +869,6 @@ def get_album_songs(album_id):
         # songs in an album, including their artists                                #
         #############################################################################
         sql = """
-        SELECT *
-        FROM Album  natural join Album_Songs natural join Song natural join Song_Artists
-        WHERE album_id = %s
         """
 
         r = dictfetchall(cur,sql,(album_id,))
@@ -916,7 +887,7 @@ def get_album_songs(album_id):
 
 
 #####################################################
-#   Query (6)   >????
+#   Query (6)
 #   Get all genres for one album
 #####################################################
 def get_album_genres(album_id):
@@ -938,7 +909,6 @@ def get_album_genres(album_id):
         # genres in an album (based on all the genres of the songs in that album)   #
         #############################################################################
         sql = """
-
         """
 
         r = dictfetchall(cur,sql,(album_id,))
@@ -957,7 +927,7 @@ def get_album_genres(album_id):
 
 
 #####################################################
-#   Query (4 a,b) - JADE
+#   Query (4 a,b)
 #   Get one tvshow
 #####################################################
 def get_tvshow(tvshow_id):
@@ -978,12 +948,11 @@ def get_tvshow(tvshow_id):
         # Fill in the SQL below with a query to get all information about a tv show #
         # including all relevant metadata       #
         #############################################################################
-        sql = """
+       sql = """
         SELECT tvshow_title,md_type_name
         FROM TVShow natural join TVShowMetaData natural join
 		MetaData natural join MetaDataType
         WHERE tvshow_id = %s
-
         """
 
         r = dictfetchall(cur,sql,(tvshow_id,))
@@ -1002,7 +971,7 @@ def get_tvshow(tvshow_id):
 
 
 #####################################################
-#   Query (4 c) - JADE
+#   Query (4 c)
 #   Get all tv show episodes for one tv show
 #####################################################
 def get_all_tvshoweps_for_tvshow(tvshow_id):
@@ -1024,8 +993,8 @@ def get_all_tvshoweps_for_tvshow(tvshow_id):
         # tv episodes in a tv show                                                  #
         #############################################################################
         sql = """
-        SELECT *
-        FROM TVShow natural join TVEpisode
+        SELECT tvshow_id,tvshow_episode_title,season ,episode,air_date
+        ROM TVShow natural join TVEpisode
         WHERE tvshow_id = %s
         """
 
@@ -1180,7 +1149,6 @@ def find_matchingmovies(searchterm):
         # that match a given search term                                            #
         #############################################################################
         sql = """
-
         """
 
         r = dictfetchall(cur,sql,(searchterm,))
