@@ -977,7 +977,7 @@ def get_tvshow(tvshow_id):
         # Fill in the SQL below with a query to get all information about a tv show #
         # including all relevant metadata       #
         #############################################################################
-       sql = """
+        sql = """
         SELECT tvshow_title,md_type_name
         FROM TVShow natural join TVShowMetaData natural join
 		MetaData natural join MetaDataType
