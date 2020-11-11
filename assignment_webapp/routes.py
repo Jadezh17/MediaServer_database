@@ -6,7 +6,7 @@ time a browser hits each of the paths. This serves as the interaction
 between the browser and the database while rendering the HTML templates
 to be displayed.
 
-You will have to make 
+You will have to make
 """
 
 # Importing the required packages
@@ -55,7 +55,7 @@ def index():
     # Data integrity checks
     if user_playlists == None:
         user_playlists = []
-    
+
     if user_subscribed_podcasts == None:
         user_subscribed_podcasts = []
 
@@ -413,7 +413,7 @@ def single_podcast(podcast_id):
     Can do this without a login
     """
     #########
-    # TODO  #  
+    # TODO  #
     #########
 
     #############################################################################
@@ -679,35 +679,33 @@ def search_movies():
         return redirect(url_for('login'))
 
     #########
-    # TODO  #  
+    # TODO  #
     #########
 
-    #############################################################################
-    # Fill in the Function below with to do all data handling for searching for #
-    # a movie                                                                   #
-    #############################################################################
+    page['title'] = 'Match Movies'
 
-    page['title'] = '' # Add the title
+    movies = None
+    if(request.method == 'POST'):
 
-    if request.method == 'POST':
-        # Set up some variables to manage the post returns
+        movies = database.find_matchingmovies(request.form['searchterm'])
 
-        # Once retrieved, do some data integrity checks on the data
 
-        # Once verified, send the appropriate data to 
+    if movies == None or movies == []:
+        movies = []
+        page['bar'] = False
+        flash("No matching movies found, please try again")
+    else:
+        page['bar'] = True
+        flash('Found '+str(len(movies))+' results!')
+        session['logged_in'] = True
+
 
         # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
         return render_template('searchitems/search_movies.html',
                     session=session,
                     page=page,
-                    user=user_details)
-    else:
-        # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES
-        return render_template('searchitems/search_movies.html',
-                           session=session,
-                           page=page,
-                           user=user_details)
-
+                    user=user_details,
+                    movies=movies)
 
 #####################################################
 #   Add Movie
@@ -767,7 +765,7 @@ def add_movie():
         else:
             newdict['artwork'] = request.form['artwork']
             print("We have a value: ",newdict['artwork'])
-        
+
         print('newdict is:')
         print(newdict)
 
@@ -803,7 +801,7 @@ def add_song():
         return redirect(url_for('login'))
 
     #########
-    # TODO  #  
+    # TODO  #
     #########
 
     #############################################################################
