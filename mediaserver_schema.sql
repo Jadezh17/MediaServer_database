@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS PodcastMetaData CASCADE;
 CREATE TABLE UserAccount (
     username VARCHAR(50) PRIMARY KEY,
     password VARCHAR(72) NOT NULL,
-    isSuper boolean DEFAULT FALSE 
+    isSuper boolean DEFAULT FALSE
 );
 
 CREATE TABLE ContactType(
@@ -308,15 +308,68 @@ create or replace function mediaserver.addSong(
     artistid int)
 RETURNS int AS
 $BODY$
-    SELECT -1;
+    -- Insert location into database
+    WITH insertLoc AS (
+        INSERT INTO mediaserver.MediaItem(storage_location) VALUES (location)
+        RETURNING media_id
+    )
+    -- Insert songdescription into database
+    , insertDescrip AS (
+        INSERT INTO mediaserver.MetaData(md_type_id, md_value)
+        SELECT md_type_id, songdescription
+        FROM mediaserver.MetaDataType
+        WHERE md_type_name = 'description'
+        RETURNING md_id AS md_id_descrip
+    )
+    -- Insert songgenre into database
+    , insertGenre AS (
+        INSERT INTO mediaserver.MetaData(md_type_id, md_value)
+        SELECT md_type_id, songgenre
+        FROM mediaserver.MetaDataType
+        WHERE md_type_name = 'song genre'
+        RETURNING md_id AS md_id_genre
+    )
+    -- Insert description metadata into MediaItemMetaData
+    , MIMDDes AS (
+        INSERT INTO mediaserver.MediaItemMetadata
+        SELECT media_id, md_id_descrip
+        FROM insertLoc, insertDescrip
+    )
+    -- Insert genre metadata into MediaItemMetaData
+    , MIMDGen AS (
+        INSERT INTO mediaserver.MediaItemMetadata
+        SELECT media_id, md_id_genre
+        FROM insertLoc, insertGenre
+    )
+    -- To get Song.song_id
+    , AudMed AS (
+        INSERT INTO mediaserver.AudioMedia
+        SELECT media_id
+        FROM insertLoc
+    )
+    -- Insert title and length of song into database
+    , insertSong AS (
+        INSERT INTO mediaserver.Song
+        SELECT media_id, title, songlength
+        FROM insertLoc
+    )
+    , insertArtist AS (
+        -- Insert artistid into database
+        INSERT INTO mediaserver.Song_Artists
+        SELECT media_id, artistid
+        FROM insertLoc;
+    )
+    -- Get id of most recently added song
+    SELECT media_id
+    FROM insertLoc;
 $BODY$
 LANGUAGE sql;
 
 
 -- Insert password with more secure storage
 -- to check the password:
---      select * 
---      from mediaserver.useraccount 
+--      select *
+--      from mediaserver.useraccount
 --      where username = 'whatevertheuseris' and password = public.crypt('whateverthepasswordis',password);
 CREATE OR REPLACE FUNCTION mediaserver.storeSecurePassword(
     username VARCHAR(50),
