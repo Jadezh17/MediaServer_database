@@ -978,10 +978,11 @@ def get_tvshow(tvshow_id):
         # including all relevant metadata       #
         #############################################################################
         sql = """
-        SELECT tvshow_title,md_type_name
-        FROM TVShow natural join TVShowMetaData natural join
-		MetaData natural join MetaDataType
-        WHERE tvshow_id = %s
+                SELECT S.tvshow_id, md_type_name
+        FROM ((mediaserver.MetaDataType MDT JOIN mediaserver.MetaData MD USING (md_type_id))
+            JOIN mediaserver.MediaItemMetaData MIMD USING (md_id))
+            JOIN mediaserver.TVShowMetaData  TM using (md_id) join mediaserver.Tvshow S ON (TM.tvshow_id = S.tvshow_id)
+        WHERE S.tvshow_id = %s;
         """
 
         r = dictfetchall(cur,sql,(tvshow_id,))
@@ -1022,9 +1023,11 @@ def get_all_tvshoweps_for_tvshow(tvshow_id):
         # tv episodes in a tv show                                                  #
         #############################################################################
         sql = """
-        SELECT tvshow_id,tvshow_episode_title,season ,episode,air_date
-        ROM TVShow natural join TVEpisode
+        SELECT md_id,tvshow_episode_title,season ,episode,air_date
+        FROM mediaserver.TVShow t join mediaserver.TVEpisode tv using(tvshow_id) natural join
+        mediaserver.TVShowMetaData 
         WHERE tvshow_id = %s
+        ORDER BY season ,episode
         """
 
         r = dictfetchall(cur,sql,(tvshow_id,))
