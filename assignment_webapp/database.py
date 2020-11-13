@@ -524,7 +524,7 @@ def get_alltvshows():
         #############################################################################
         sql = """
         SELECT tvshow_id, tvshow_title, count(tvshow_episode_title)
-        FROM TVSHOW natural join TVEpisode
+        FROM mediaserver.TVSHOW natural join mediaserver.TVEpisode
         GROUP BY tvshow_id,tvshow_title
         """
 
