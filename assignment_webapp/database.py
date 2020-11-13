@@ -1023,7 +1023,7 @@ def get_all_tvshoweps_for_tvshow(tvshow_id):
         # tv episodes in a tv show                                                  #
         #############################################################################
         sql = """
-        SELECT md_id,tvshow_episode_title,season ,episode,air_date
+        SELECT media_id,tvshow_episode_title,season ,episode,air_date
         FROM mediaserver.TVShow t join mediaserver.TVEpisode tv using(tvshow_id) natural join
         mediaserver.TVShowMetaData 
         WHERE tvshow_id = %s
