@@ -461,7 +461,7 @@ def single_podcastep(media_id):
     # Fill in the Function below with to do all data handling for a podcast ep  #
     #############################################################################
 
-    page['title'] = 'Podcast episoodes ' # Add the title
+    page['title'] = 'Podcast episodes' # Add the title
     # Set up some variables to manage the returns from the database fucntions
     podcast_ep = None
     podcast_ep = database.get_podcastep(media_id)
@@ -475,7 +475,7 @@ def single_podcastep(media_id):
                            session=session,
                            page=page,
                            user=user_details,
-                           podcast_ep = podcasteps)
+                           podcast_ep = podcast_ep)
 
 
 #####################################################

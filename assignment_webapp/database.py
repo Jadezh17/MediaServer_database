@@ -726,8 +726,9 @@ def get_podcast(podcast_id):
         #############################################################################
         sql = """
         SELECT *
-        FROM (mediaserver.Podcast P JOIN mediaserver.PodcastMetaData PMD USING (podcast_id))
-            JOIN mediaserver.MetaData M USING (md_id)
+        FROM ((mediaserver.Podcast P JOIN mediaserver.PodcastMetaData PMD USING (podcast_id))
+            JOIN mediaserver.MetaData MD USING (md_id))
+            JOIN mediaserver.MetaDataType MDT USING (md_type_id)
         WHERE P.podcast_id = %s;
         """
 
