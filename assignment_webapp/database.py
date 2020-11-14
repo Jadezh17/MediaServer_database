@@ -769,7 +769,7 @@ def get_all_podcasteps_for_podcast(podcast_id):
         #############################################################################
 
         sql = """
-        SELECT podcast_id, podcast_episode_title, podcast_episode_URI, podcast_episode_published_date, podcast_episode_length
+        SELECT media_id, podcast_id, podcast_episode_title, podcast_episode_URI, podcast_episode_published_date, podcast_episode_length
         FROM mediaserver.PodcastEpisode PE
         WHERE PE.podcast_id = %s
         ORDER BY podcast_episode_published_date DESC
