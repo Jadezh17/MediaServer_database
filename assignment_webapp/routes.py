@@ -689,7 +689,7 @@ def search_movies():
 
         movies = database.find_matchingmovies(request.form['searchterm'])
 
-
+    # Once verified, send the appropriate data to
     if movies == None or movies == []:
         movies = []
         page['bar'] = False
@@ -808,14 +808,65 @@ def add_song():
     # Fill in the Function below with to do all data handling for adding a song #
     #############################################################################
 
-    page['title'] = '' # Add the title
+    page['title'] = 'Song Creation' # Add the title
+
+    # Variables
+    songs = None
+    print("request form is:")
+    newdict = {}
+    print(request.form)
 
     if request.method == 'POST':
         # Set up some variables to manage the post returns
 
         # Once retrieved, do some data integrity checks on the data
+        if ('song_title' not in request.form):
+            newdict['song_title'] = 'Empty song'
+        else:
+            newdict['song_title'] = request.form['song_title']
+            print("We have a value: ",newdict['song_title'])
+
+        if ('song_length' not in request.form):
+            newdict['song_length'] = '0'
+        else:
+            newdict['song_length'] = request.form['song_length']
+            print("We have a value: ",newdict['song_length'])
+
+        if ('storage_location' not in request.form):
+            newdict['storage_location'] = 'No location'
+        else:
+            newdict['storage_location'] = request.form['storage_location']
+            print("We have a value: ",newdict['storage_location'])
+
+        if ('artist_id' not in request.form):
+            newdict['artist_id'] = '1'
+        else:
+            newdict['artist_id'] = request.form['artist_id']
+            print("We have a value: ",newdict['artist_id'])
+
+        if ('description' not in request.form):
+            newdict['description'] = 'No description'
+        else:
+            newdict['description'] = request.form['description']
+            print("We have a value: ",newdict['description'])
+
+        if ('song_genre' not in request.form):
+            newdict['song_genre'] = 'pop'
+        else:
+            newdict['song_genre'] = request.form['song_genre']
+            print("We have a value: ",newdict['song_genre'])
+
+        if ('artwork' not in request.form):
+            newdict['artwork'] = 'https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png'
+        else:
+            newdict['artwork'] = request.form['artwork']
+            print("We have a value: ",newdict['artwork'])
+
+        print('newdict is:')
+        print(newdict)
 
         # Once verified, send the appropriate data to the database for insertion
+        songs = database.add_song_to_db(newdict['storage_location'],newdict['description'],newdict['song_title'],newdict['song_length'],newdict['song_genre'],newdict['artist_id'])
 
         # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES
         return render_template('singleitems/song.html',
