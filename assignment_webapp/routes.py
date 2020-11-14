@@ -427,7 +427,7 @@ def single_podcast(podcast_id):
     podcast = database.get_podcast(podcast_id)
 
     podcasteps = None
-    podcasteps = get_all_podcasteps_for_podcast(podcast_id)
+    podcasteps = database.get_all_podcasteps_for_podcast(podcast_id)
 
     # Once retrieved, do some data integrity checks on the data
     if podcast == None:
@@ -442,7 +442,7 @@ def single_podcast(podcast_id):
                            page=page,
                            user=user_details,
                            podcast=podcast,
-                           podcasteps=poscasteps)
+                           podcasteps=podcasteps)
 
 #####################################################
 #   Query 7 (8?)
