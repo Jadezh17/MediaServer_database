@@ -427,7 +427,7 @@ def single_podcast(podcast_id):
     podcast = database.get_podcast(podcast_id)
 
     podcasteps = None
-    podcasteps = get_all_podcasteps_for_podcast(podcast_id)
+    podcasteps = database.get_all_podcasteps_for_podcast(podcast_id)
 
     # Once retrieved, do some data integrity checks on the data
     if podcast == None:
@@ -442,7 +442,7 @@ def single_podcast(podcast_id):
                            page=page,
                            user=user_details,
                            podcast=podcast,
-                           podcasteps=poscasteps)
+                           podcasteps=podcasteps)
 
 #####################################################
 #   Query 7 (8?)
@@ -682,32 +682,30 @@ def search_movies():
     # TODO  #
     #########
 
-    #############################################################################
-    # Fill in the Function below with to do all data handling for searching for #
-    # a movie                                                                   #
-    #############################################################################
+    page['title'] = 'Match Movies'
 
-    page['title'] = '' # Add the title
+    movies = None
+    if(request.method == 'POST'):
 
-    if request.method == 'POST':
-        # Set up some variables to manage the post returns
+        movies = database.find_matchingmovies(request.form['searchterm'])
 
-        # Once retrieved, do some data integrity checks on the data
+    # Once verified, send the appropriate data to
+    if movies == None or movies == []:
+        movies = []
+        page['bar'] = False
+        flash("No matching movies found, please try again")
+    else:
+        page['bar'] = True
+        flash('Found '+str(len(movies))+' results!')
+        session['logged_in'] = True
 
-        # Once verified, send the appropriate data to
 
         # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
         return render_template('searchitems/search_movies.html',
                     session=session,
                     page=page,
-                    user=user_details)
-    else:
-        # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES
-        return render_template('searchitems/search_movies.html',
-                           session=session,
-                           page=page,
-                           user=user_details)
-
+                    user=user_details,
+                    movies=movies)
 
 #####################################################
 #   Add Movie
