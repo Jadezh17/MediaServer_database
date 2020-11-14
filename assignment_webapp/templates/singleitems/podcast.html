@@ -5,6 +5,7 @@
         Display All Relevant Podcast Information including meta data
         Display All Relevant Podcast Episodes for this Podcast
         -->
+        {% if podcast | length > 0 %}
             <h2 class="title"> This Podcast</h2>
             <hr/>
             <div>
@@ -21,14 +22,39 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{podcast.podcast_id}}</td>
-                            <td>{{podcast.podcast_title}}</td>
-                            <td>{{podcast.podcast_uri}}</td>
-                            <td>{{podcast.podcast_last_updated}}</td>
+                            <td>{{podcast[0].podcast_id}}</td>
+                            <td>{{podcast[0].podcast_title}}</td>
+                            <td>{{podcast[0].podcast_uri}}</td>
+                            <td>{{podcast[0].podcast_last_updated}}</td>
                         </tr>
                     </tbody>
 
                 </table>
+
+                <h3> Artworks </h3>
+                {% for instance in podcast %}
+                    {% if instance.md_type_name == 'artwork' %}
+                        <img src="{{instance.md_value}}" alt="image">
+                    {% endif %}
+                {% endfor %}
+                <br/>
+                <h3> Descriptions </h3>
+                {% for instance in podcast %}
+                    {% if instance.md_type_name == 'description' %}
+                        <div>
+                            {{instance.md_value}}
+                        </div>
+                {% endif %}
+                {% endfor %}
+                <br/>
+                <h3> Genres </h3>
+                {% for instance in podcast %}
+                    {% if instance.md_type_name == 'podcast genre' %}
+                        <div>
+                            {{instance.md_value}}
+                        </div>
+                    {% endif %}
+                {% endfor %}
 
             </div>
 
@@ -60,6 +86,10 @@
                 </table>
 
             </div>
+        {% else %}
+            <h2 class="title"> Invalid Podcast ID</h2>
+        {% endif %}
+
     </div>
 </div>
 {% include 'bottom.html'%}
