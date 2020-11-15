@@ -840,6 +840,36 @@ def get_podcastep(podcastep_id):
     conn.close()                    # Close the connection to the db
     return None
 
+def get_podcastep_progress(media_id, username):
+    """
+    Get a podcast ep progress of user
+    """
+
+    conn = database_connect()
+    if(conn is None):
+        return None
+    cur = conn.cursor()
+    try:
+        sql = """
+        SELECT progress
+        FROM mediaserver.UserMediaConsumption
+            JOIN mediaserver.PodcastEpisode USING (media_id)
+        WHERE media_id = %s AND username = %s
+        """
+
+        r = dictfetchall(cur,sql,(media_id, username,))
+        print("return val is:")
+        print(r)
+        cur.close()                     # Close the cursor
+        conn.close()                    # Close the connection to the db
+        return r
+    except:
+        # If there were any errors, return a NULL row printing an error to the debug
+        print("Unexpected error getting progress for Podcast Episode with ID: "+podcastep_id, sys.exc_info()[0])
+        raise
+    cur.close()                     # Close the cursor
+    conn.close()                    # Close the connection to the db
+    return None
 
 #####################################################
 #   Query (5 a,b)

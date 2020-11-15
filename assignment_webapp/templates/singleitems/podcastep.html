@@ -19,11 +19,27 @@
         <h2 class="title"> Media Id {{podcastep[0].media_id}} </h2>
         <br />
 
-        <audio controls>
+        <audio id="webplayer" controls>
             <source src={{podcastep[0].podcast_episode_uri}} type="audio/mpeg">
             <source src={{podcastep[0].podcast_episode_uri}} type="audio/ogg">
             <source src={{podcastep[0].podcast_episode_uri}} type="audio/wav">
         </audio>
+
+        <button onclick="Continue()" type="button">Continue from previous session</button>
+
+        <script>
+        var webplayer = document.getElementById("webplayer");
+        function getCurTime() {
+          alert(webplayer.currentTime);
+        }
+
+        function Continue() {
+            {% if progress | length  > 0 %}
+                webplayer.currentTime = ((webplayer.duration) * ({{progress[0].progress}}/100));
+            {% endif %}
+        }
+
+        </script>
 
         <h3> Artworks </h3>
         {% for instance in PodcastEpisode %}

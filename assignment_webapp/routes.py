@@ -470,13 +470,21 @@ def single_podcastep(media_id):
     if podcastep == None:
         podcastep = []
 
+    global session
+    global user_details
 
-    # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES
+    progress = None
+    if ('logged_in' in session or session['logged_in']):
+        progress = database.get_podcastep_progress(media_id, user_details['username'])
+    if progress == None:
+        progress = []
+
     return render_template('singleitems/podcastep.html',
                            session=session,
                            page=page,
                            user=user_details,
-                           podcastep = podcastep)
+                           podcastep = podcastep,
+                           progress = progress)
 
 
 #####################################################
