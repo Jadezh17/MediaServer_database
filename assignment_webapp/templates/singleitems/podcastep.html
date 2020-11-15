@@ -8,15 +8,16 @@
         <!-- CONTAIN PODCAST EP TITLE + DATE PUBLISHED -->
         <h2 class="title"> {{podcastep[0].podcast_episode_title}}  </h2>
         <br />
-        <!--seson + episode -->
+        Podcast episode ID is   {{podcastep[0].podcast_id}}
+        <br />
         Podcast published on {{podcastep[0].podcast_episode_published_date}}
         <br />
-        Podcast episode is {{podcastep[0].podcast_episode_length}} minutes long.
+        Podcast episode is {{podcastep[0].podcast_episode_length/60}} minutes long.
 
         <br />
-        Podcast episode URL is {{podcastep[0].podcast_episode_URI}} .
+        Podcast episode URL is {{podcastep[0].podcast_episode_uri}} .
 
-    <h2 class="title"> Media Id {{podcastep[0].media_id}} </h2>
+        <h2 class="title"> Media Id {{podcastep[0].media_id}} </h2>
         <br />
 
         <h3> Artworks </h3>
