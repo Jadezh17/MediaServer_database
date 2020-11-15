@@ -7,13 +7,12 @@
         {% if podcastep | length  > 0 %}
         <!-- CONTAIN PODCAST EP TITLE + DATE PUBLISHED -->
         <h2 class="title"> {{podcastep[0].podcast_episode_title}}  </h2>
-        <br />
         Podcast episode ID is   {{podcastep[0].podcast_id}}
         <br />
         Podcast published on {{podcastep[0].podcast_episode_published_date}}
         <br />
-        Podcast episode is {{podcastep[0].podcast_episode_length/60}} minutes long.
-
+        Podcast episode is {{podcastep[0].length}} minutes long.
+        <hr />
         <br />
         Podcast episode URL is {{podcastep[0].podcast_episode_uri}} .
 
