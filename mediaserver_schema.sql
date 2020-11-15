@@ -352,16 +352,17 @@ $BODY$
         INSERT INTO mediaserver.Song
         SELECT media_id, title, songlength
         FROM insertLoc
+        RETURNING song_id
     )
-    , insertArtist AS (
-        -- Insert artistid into database
-        INSERT INTO mediaserver.Song_Artists
-        SELECT media_id, artistid
-        FROM insertLoc;
-    )
+    -- Insert artistid into database
+    INSERT INTO mediaserver.Song_Artists
+    SELECT song_id, artistid
+    FROM insertSong;
+
     -- Get id of most recently added song
-    SELECT media_id
-    FROM insertLoc;
+    SELECT max(song_id) AS "song_id"
+    FROM mediaserver.Song;
+
 $BODY$
 LANGUAGE sql;
 
