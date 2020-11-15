@@ -236,9 +236,11 @@ def user_playlists(username):
         # Fill in the SQL below and make sure you get all the playlists for this user #
         ###############################################################################
         sql = """
-            SELECT collection_id, collection_name
-            FROM mediaserver.MediaCollection
-            WHERE username = %s;
+            SELECT collection_id, collection_name, count(media_id) as count
+            FROM mediaserver.MediaCollection MC
+                JOIN mediaserver.MediaCollectionContents MCC USING (collection_id)
+            WHERE username = %s
+            GROUP BY MC.collection_id;
 
         """
 
@@ -281,7 +283,7 @@ def user_podcast_subscriptions(username):
         #################################################################################
 
         sql = """
-            SELECT *
+            SELECT podcast_id, podcast_title, podcast_uri, podcast_last_updated
             FROM mediaserver.Podcast P JOIN mediaserver.Subscribed_Podcasts SP USING (podcast_id)
             WHERE username = %s;
         """
@@ -322,7 +324,7 @@ def user_in_progress_items(username):
         ###################################################################################
 
         sql = """
-            SELECT *
+            SELECT media_id, playcount, progress, lastviewed, storage_location
             FROM mediaserver.UserMediaConsumption
             WHERE progress < 100
             ORDER BY lastviewed DESC
