@@ -814,10 +814,10 @@ def get_podcastep(podcastep_id):
         # podcast episodes and it's associated metadata                             #
         #############################################################################
         sql = """
-        SELECT podcast_id, podcast_title, podcast_uri,podcast_episode_published_date, podcast_episode_length,  md_type_name
+        SELECT media_id, podcast_title, podcast_uri,podcast_episode_published_date, podcast_episode_length,  md_type_name
         FROM mediaserver.Podcast natural join mediaserver.PodcastEpisode natural join mediaserver.PodcastMetaData
 		    natural join mediaserver.MetaDataType
-        WHERE podcastep_id = %s
+        WHERE media_id = %s
         """
 
         r = dictfetchall(cur,sql,(podcastep_id,))
