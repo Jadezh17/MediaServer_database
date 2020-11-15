@@ -324,7 +324,8 @@ def user_in_progress_items(username):
         sql = """
             SELECT *
             FROM mediaserver.UserMediaConsumption
-            WHERE progress < 100;
+            WHERE progress < 100
+            ORDER BY lastviewed DESC
         """
 
         r = dictfetchall(cur,sql,(username,))
