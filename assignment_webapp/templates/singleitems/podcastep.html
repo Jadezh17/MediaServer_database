@@ -2,53 +2,52 @@
 <div class="content">
     <div class="container details">
         <!-- TODO Query 7 (8?)
-        Display All Relevant Podcast Episode Infromation including meta data
-        -->
-        {% if Podcast | podcast_episode_length  > 0 %}
+    Display All Relevant Podcast Episode Infromation including meta data
+    -->
+        {% if podcastep | length  > 0 %}
         <!-- CONTAIN PODCAST EP TITLE + DATE PUBLISHED -->
-            <h2 class="title"> {{PodcastEpisode[0].podcast_episode_title}}  </h2>
-            <br/>
-           <!--seson + episode -->
-           Podcast published on {{PodcastEpisode[0].podcast_episode_published_date}}
-           <br/>
-           Podcast episode is {{PodcastEpisode[0].podcast_episode_length}} minutes long.
+        <h2 class="title"> {{podcastep[0].podcast_episode_title}}  </h2>
+        <br />
+        <!--seson + episode -->
+        Podcast published on {{podcastep[0].podcast_episode_published_date}}
+        <br />
+        Podcast episode is {{podcastep[0].podcast_episode_length}} minutes long.
 
-           <br/>
-           Podcast episode URL is {{PodcastEpisode[0].podcast_episode_URI}} .
+        <br />
+        Podcast episode URL is {{podcastep[0].podcast_episode_URI}} .
 
-            <h2 class="title"> Media Id {{PodcastEpisode[0].media_id}} </h2>
-            <br/>
+    <h2 class="title"> Media Id {{podcastep[0].media_id}} </h2>
+        <br />
 
-            <h3> Artworks </h3>
-            {% for instance in PodcastEpisode %}
-                {% if instance.md_type_name == 'artwork' %}
-                    <img src="{{instance.md_value}}" alt="image">
-                    <br/>© Amazon Public Domain 2019.
-                {% endif %}
-            {% endfor %}
-            <br/>
-            <h3> Descriptions </h3>
-            {% for instance in PodcastEpisode %}
-                {% if instance.md_type_name == 'description' %}
-                    <div>
-                        {{instance.md_value}}
-                    </div>
-                {% endif %}
-            {% endfor %}
-            <br/>
-            <h3> Genres </h3>
-            {% for instance in tvshow %}
-                {% if instance.md_type_name == 'film genre' %}
-                    <div>
-                        {{instance.md_value}}
-                    </div>
-                {% endif %}
-            {% endfor %}
-            <div>
-        {% else %}
-            <h2 class="title"> Invalid Podcast Ep ID</h2>
+        <h3> Artworks </h3>
+        {% for instance in PodcastEpisode %}
+        {% if instance.md_type_name == 'artwork' %}
+        <img src="{{instance.md_value}}" alt="image">
+        <br />© Amazon Public Domain 2019.
         {% endif %}
+        {% endfor %}
+        <br />
+        <h3> Descriptions </h3>
+        {% for instance in PodcastEpisode %}
+        {% if instance.md_type_name == 'description' %}
+        <div>
+            {{instance.md_value}}
+        </div>
+        {% endif %}
+        {% endfor %}
+        <br />
+        <h3> Genres </h3>
+        {% for instance in tvshow %}
+        {% if instance.md_type_name == 'film genre' %}
+        <div>
+            {{instance.md_value}}
+        </div>
+        {% endif %}
+        {% endfor %}
+        <div>
 
+            {% endif %}
+
+        </div>
     </div>
-</div>
 {% include 'bottom.html'%}
