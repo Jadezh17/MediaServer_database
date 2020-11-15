@@ -19,6 +19,12 @@
         <h2 class="title"> Media Id {{podcastep[0].media_id}} </h2>
         <br />
 
+        <audio controls>
+            <source src={{podcastep[0].podcast_episode_uri}} type="audio/mpeg">
+            <source src={{podcastep[0].podcast_episode_uri}} type="audio/ogg">
+            <source src={{podcastep[0].podcast_episode_uri}} type="audio/wav">
+        </audio>
+
         <h3> Artworks </h3>
         {% for instance in PodcastEpisode %}
         {% if instance.md_type_name == 'artwork' %}

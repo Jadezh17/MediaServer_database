@@ -7,6 +7,10 @@
             <br/>
             Song is {{song[0].length}} seconds long.
             <hr/>
+
+            <audio controls>
+                <source src="{{song[0].storage_location}}" type="audio/mpeg">
+            </audio>
             <h3> Artworks </h3>
             {% for instance in songmetadata %}
                 {% if instance.md_type_name == 'artwork' %}
@@ -32,6 +36,7 @@
                     </div>
                 {% endif %}
             {% endfor %}
+
         {% else %}
             <h2 class="title"> Invalid Song ID</h2>
         {% endif %}
