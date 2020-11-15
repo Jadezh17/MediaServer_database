@@ -324,9 +324,10 @@ def user_in_progress_items(username):
         ###################################################################################
 
         sql = """
-            SELECT media_id, playcount, progress, lastviewed, storage_location
+            SELECT media_id, play_count, progress, lastviewed, storage_location
             FROM mediaserver.UserMediaConsumption
-            WHERE progress < 100
+                JOIN mediaserver.mediaItem USING (media_id)
+            WHERE progress < 100 and username = %s
             ORDER BY lastviewed DESC
         """
 
