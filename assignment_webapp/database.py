@@ -637,9 +637,11 @@ def get_song(song_id):
         # and the artists that performed it                                         #
         #############################################################################
         sql = """
-            SELECT S.song_title, A.artist_name, S.length
+            SELECT S.song_title, A.artist_name, S.length, storage_location
             FROM mediaserver.Song S JOIN mediaserver.Song_Artists SA USING (song_id)
                 JOIN mediaserver.Artist A ON (SA.performing_artist_id = A.artist_id)
+                JOIN mediaserver.AudioMedia ON (song_id = media_id)
+                JOIN mediaserver.MediaItem USING (media_id)
             WHERE S.song_id = %s
         """
 
@@ -1003,7 +1005,9 @@ def get_tvshow(tvshow_id):
         SELECT S.tvshow_id, md_type_name
         FROM ((mediaserver.MetaDataType MDT JOIN mediaserver.MetaData MD USING (md_type_id))
             JOIN mediaserver.MediaItemMetaData MIMD USING (md_id))
-            JOIN mediaserver.TVShowMetaData  TM using (md_id) join mediaserver.Tvshow S ON (TM.tvshow_id = S.tvshow_id)
+            JOIN mediaserver.TVShowMetaData  TM using (md_id)
+            JOIN mediaserver.Tvshow S ON (TM.tvshow_id = S.tvshow_id)
+            JOIN mediaserver.MediaItem USING (media_id)
         WHERE S.tvshow_id = %s;
         """
 
@@ -1046,8 +1050,9 @@ def get_all_tvshoweps_for_tvshow(tvshow_id):
         #############################################################################
         sql = """
         SELECT distinct media_id,tvshow_episode_title,season ,episode,air_date
-        FROM mediaserver.TVShow t join mediaserver.TVEpisode tv using(tvshow_id) natural join
-        mediaserver.TVShowMetaData
+        FROM mediaserver.TVShow t
+            join mediaserver.TVEpisode tv using(tvshow_id)
+            natural join mediaserver.TVShowMetaData
         WHERE tvshow_id = %s
         ORDER BY season, episode
         """
