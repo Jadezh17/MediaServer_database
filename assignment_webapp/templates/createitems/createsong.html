@@ -33,7 +33,14 @@
             Song length: <input type="text" name="song_length" value="0" placeholder="Length of song">
             <br/>
             Storage location: <input type="text" name="storage_location" value="no location" placeholder="Place to store song">
-            Artist id: <input type="text" name="artist_id" value="1" placeholder="Artist's ID">
+
+            <label for="artist_id">Artist id:</label>
+            <select name="artist_id" id="artist_id">
+            {% for instance in artists %}
+                <option value="{{instance.artist_id}}">{{instance.artist_id}}</option>
+            {% endfor %}
+            </select>
+
             Description: <input type="text" name="description" value="no description" placeholder="Description">
             <br/>
             Song Genre: <input type="text" name="song_genre" value="pop" placeholder="Genre name">
