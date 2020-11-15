@@ -814,7 +814,7 @@ def get_podcastep(podcastep_id):
         # podcast episodes and it's associated metadata                             #
         #############################################################################
         sql = """
-        SELECT media_id, podcast_title, podcast_uri,podcast_episode_published_date, podcast_episode_length,  md_type_name
+        SELECT media_id,podcast_id, podcast_episode_title, podcast_episode_URI,podcast_episode_published_date,podcast_episode_length/60 as length,  md_type_name
         FROM mediaserver.Podcast natural join mediaserver.PodcastEpisode natural join mediaserver.PodcastMetaData
 		    natural join mediaserver.MetaDataType
         WHERE media_id = %s
