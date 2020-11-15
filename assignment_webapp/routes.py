@@ -985,11 +985,21 @@ def add_song():
 
     page['title'] = 'Song Creation' # Add the title
 
-    # Variables
     songs = None
     print("request form is:")
     newdict = {}
     print(request.form)
+
+    # Retrieve all existing artists to pass into createsong.html
+    artists = None
+    artists = database.get_allartists()
+
+    # Data integrity checks
+    if artists == None:
+        artists = []
+    else:
+        # Order artist_id by ascending order for readability
+        artists = sorted(artists, key = lambda k: k['artist_id'])
 
     if request.method == 'POST':
         # Set up some variables to manage the post returns
@@ -1041,15 +1051,21 @@ def add_song():
         print(newdict)
 
         # Once verified, send the appropriate data to the database for insertion
-        songs = database.add_song_to_db(newdict['storage_location'],newdict['description'],newdict['song_title'],newdict['song_length'],newdict['song_genre'],newdict['artist_id'])
+        matching_artists = database.get_artist(newdict['artist_id'])
+        if len(matching_artists) > 0:
+            songs = database.add_song_to_db(newdict['storage_location'],newdict['description'],newdict['song_title'],newdict['song_length'],newdict['song_genre'],newdict['artist_id'])
 
-        # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES
-        return render_template('singleitems/song.html',
-                           session=session,
-                           page=page,
-                           user=user_details)
+        # Latest song is most recently added song to database
+        # only if the new song cannot be inserted
+        latest_song_id = database.get_last_song()[0]['song_id']
+        print("printing songs: {}".format(songs))
+        if songs is not None:
+            latest_song_id = songs[0]
+
+        return single_song(latest_song_id)
     else:
         return render_template('createitems/createsong.html',
                            session=session,
                            page=page,
-                           user=user_details)
+                           user=user_details,
+                           artists=artists)
