@@ -703,6 +703,7 @@ def search_movies():
         movies = []
         page['bar'] = False
         flash("No matching movies found, please try again")
+
     else:
         page['bar'] = True
         flash('Found '+str(len(movies))+' results!')
@@ -710,11 +711,11 @@ def search_movies():
 
 
         # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
-        return render_template('searchitems/search_movies.html',
-                    session=session,
-                    page=page,
-                    user=user_details,
-                    movies=movies)
+    return render_template('searchitems/search_movies.html',
+                session=session,
+                page=page,
+                user=user_details,
+                movies=movies)
 
 #####################################################
 #   Functionality 1
@@ -753,11 +754,11 @@ def search_artists():
 
 
         # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
-        return render_template('searchitems/search_artists.html',
-                    session=session,
-                    page=page,
-                    user=user_details,
-                    artists=artists)
+    return render_template('searchitems/search_artists.html',
+                session=session,
+                page=page,
+                user=user_details,
+                artists=artists)
 
 
 #####################################################
@@ -797,11 +798,11 @@ def search_songs():
 
 
         # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
-        return render_template('searchitems/search_songs.html',
-                    session=session,
-                    page=page,
-                    user=user_details,
-                    songs=songs)
+    return render_template('searchitems/search_songs.html',
+                session=session,
+                page=page,
+                user=user_details,
+                songs=songs)
 
 #####################################################
 #   Functionality 3
@@ -840,11 +841,11 @@ def search_albums():
 
 
         # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
-        return render_template('searchitems/search_albums.html',
-                    session=session,
-                    page=page,
-                    user=user_details,
-                    albums=albums)
+    return render_template('searchitems/search_albums.html',
+                session=session,
+                page=page,
+                user=user_details,
+                albums=albums)
 
 #####################################################
 #   Functionality 4
@@ -883,11 +884,11 @@ def search_podcasts():
 
 
         # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
-        return render_template('searchitems/search_podcasts.html',
-                    session=session,
-                    page=page,
-                    user=user_details,
-                    podcasts=podcasts)
+    return render_template('searchitems/search_podcasts.html',
+                session=session,
+                page=page,
+                user=user_details,
+                podcasts=podcasts)
 
 
 #####################################################
