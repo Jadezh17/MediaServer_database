@@ -641,13 +641,22 @@ def get_song(song_id):
         # and the artists that performed it                                         #
         #############################################################################
         sql = """
-            SELECT S.song_title, A.artist_name, S.length, storage_location
-            FROM mediaserver.Song S JOIN mediaserver.Song_Artists SA USING (song_id)
-                JOIN mediaserver.Artist A ON (SA.performing_artist_id = A.artist_id)
-                JOIN mediaserver.AudioMedia ON (song_id = media_id)
-                JOIN mediaserver.MediaItem USING (media_id)
-            WHERE S.song_id = %s
+        select *
+        from mediaserver.song natural join mediaserver.song_artists sa join
+        mediaserver.artist a ON (sa.performing_artist_id=a.artist_id) left outer join
+            (mediaserver.artistmetadata natural join mediaserver.metadata natural join mediaserver.MetaDataType) amd
+        on (a.artist_id=amd.artist_id)
+            WHERE song_id = %s
         """
+
+        # sql = """
+        #     SELECT S.song_title, A.artist_name, S.length, storage_location
+        #     FROM mediaserver.Song S JOIN mediaserver.Song_Artists SA USING (song_id)
+        #         JOIN mediaserver.Artist A ON (SA.performing_artist_id = A.artist_id)
+        #         JOIN mediaserver.AudioMedia ON (song_id = media_id)
+        #         JOIN mediaserver.MediaItem USING (media_id)
+        #     WHERE S.song_id = %s
+        # """
 
         r = dictfetchall(cur,sql,(song_id,))
         print("return val is:")
