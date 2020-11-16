@@ -27,10 +27,13 @@
 
         <button onclick="Continue()" type="button">Continue from previous session</button>
 
+        <form action="getCurTime()" method="post">
+            <button id="1" name="Save Progress" value="0">Save Progress</button>
+        </form>
         <script>
         var webplayer = document.getElementById("webplayer");
         function getCurTime() {
-          alert(webplayer.currentTime);
+          return webplayer.currentTime;
         }
 
         function Continue() {

@@ -448,7 +448,8 @@ def single_podcast(podcast_id):
 #   Query 7 (8?)
 #   Individual Podcast Episode
 #####################################################
-@app.route('/podcastep/<media_id>')
+
+@app.route('/podcastep/<media_id>', methods=['POST','GET'])
 def single_podcastep(media_id):
     """
     Show a single podcast epsiode by media_id in your media server
@@ -460,6 +461,11 @@ def single_podcastep(media_id):
     #############################################################################
     # Fill in the Function below with to do all data handling for a podcast ep  #
     #############################################################################
+    if request.method == 'POST':
+        if ('progress' not in request.form):
+            newdict['progress'] = 'Empty'
+        # Once verified, send the appropriate data to the database for update
+        progress = database.update_progress(newdict['progress'],newdict['media_id'],newdict['username'])
 
 
     page['title'] = 'Podcast episodes' # Add the title

@@ -871,6 +871,34 @@ def get_podcastep_progress(media_id, username):
     conn.close()                    # Close the connection to the db
     return None
 
+def update_progress(progress, media_id, username):
+    """
+    Set a new progress for the media of the user
+    """
+    conn = database_connect()
+    if(conn is None):
+        return None
+    cur = conn.cursor()
+    try:
+        sql = """
+            UPDATE mediaserver.UserMediaConsumption
+            SET progress = %s
+            WHERE media_id = %s and username = %s
+        """
+        cur.execute(sql,(progress, media_id, username))
+        conn.commit()                   # Commit the transaction
+        r = cur.fetchone()
+        print(r)
+        cur.close()                     # Close the cursor
+        conn.close()                    # Close the connection to the db
+        return r
+    except:
+        print("Unexpected error updating progress for Podcast Episode with ID: "+podcastep_id, sys.exc_info()[0])
+        raise
+    cur.close()                     # Close the cursor
+    conn.close()                    # Close the connection to the db
+    return None
+
 #####################################################
 #   Query (5 a,b)
 #   Get one album
