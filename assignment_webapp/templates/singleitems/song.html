@@ -9,7 +9,7 @@
             <hr/>
 
             <h3> Artworks </h3>
-            {% for instance in song %}
+            {% for instance in songmetadata %}
                 {% if instance.md_type_name == 'artwork' %}
                     <img src="{{instance.md_value}}" alt="image">
                     <br/>© Spotify Public Domain 2019.
@@ -18,7 +18,7 @@
             <br/>
 
             <h3> Descriptions </h3>
-            {% for instance in song %}
+            {% for instance in songmetadata %}
                 {% if instance.md_type_name == 'description' %}
                     <div>
                         {{instance.md_value}}
