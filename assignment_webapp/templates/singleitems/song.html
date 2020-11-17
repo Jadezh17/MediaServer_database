@@ -7,10 +7,6 @@
             <br/>
             Song is {{song[0].length}} seconds long.
             <hr/>
-            <!-- Plays song -->
-            <audio controls>
-                <source src="{{song[0].storage_location}}" type="audio/mpeg">
-            </audio>
 
             <h3> Artworks </h3>
             {% for instance in song %}
