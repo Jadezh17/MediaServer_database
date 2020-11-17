@@ -845,6 +845,133 @@ def search_albums():
     return render_template('searchitems/search_albums.html',
                 session=session,
                 page=page,
+#####################################################
+#   Functionality 1
+#   Search Artist
+#####################################################
+
+@app.route('/search/artist', methods=['POST','GET'])
+def search_artists():
+    """
+    Search all the artists in your media server
+    """
+    # Check if the user is logged in, if not: back to login.
+    if('logged_in' not in session or not session['logged_in']):
+        return redirect(url_for('login'))
+
+    #########
+    # TODO  #
+    #########
+
+    page['title'] = 'Match Artist'
+
+    artists = None
+    if(request.method == 'POST'):
+
+        artists = database.find_matchingartists(request.form['searchterm'])
+
+    # Once verified, send the appropriate data to
+    if artists == None or artists == []:
+        artists = []
+        page['bar'] = False
+        flash("No matching artist found, please try again")
+    else:
+        page['bar'] = True
+        flash('Found '+str(len(artists))+' results!')
+        session['logged_in'] = True
+
+
+        # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
+    return render_template('searchitems/search_artists.html',
+                session=session,
+                page=page,
+                user=user_details,
+                artists=artists)
+
+
+#####################################################
+#   Functionality 2
+#   Search Song
+#####################################################
+
+@app.route('/search/song', methods=['POST','GET'])
+def search_songs():
+    """
+    Search all the songs in your media server
+    """
+    # Check if the user is logged in, if not: back to login.
+    if('logged_in' not in session or not session['logged_in']):
+        return redirect(url_for('login'))
+
+    #########
+    # TODO  #
+    #########
+
+    page['title'] = 'Match Song'
+
+    songs = None
+    if(request.method == 'POST'):
+
+        songs = database.find_matchingsongs(request.form['searchterm'])
+
+    # Once verified, send the appropriate data to
+    if songs == None or songs == []:
+        artists = []
+        page['bar'] = False
+        flash("No matching songs found, please try again")
+    else:
+        page['bar'] = True
+        flash('Found '+str(len(songs))+' results!')
+        session['logged_in'] = True
+
+
+        # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
+    return render_template('searchitems/search_songs.html',
+                session=session,
+                page=page,
+                user=user_details,
+                songs=songs)
+
+#####################################################
+#   Functionality 3
+#   Search Song
+#####################################################
+
+@app.route('/search/album', methods=['POST','GET'])
+def search_albums():
+    """
+    Search all the songs in your media server
+    """
+    # Check if the user is logged in, if not: back to login.
+    if('logged_in' not in session or not session['logged_in']):
+        return redirect(url_for('login'))
+
+    #########
+    # TODO  #
+    #########
+
+    page['title'] = 'Match Album'
+
+    albums = None
+    if(request.method == 'POST'):
+
+        albums = database.find_matchingalbums(request.form['searchterm'])
+
+    # Once verified, send the appropriate data to
+    if albums == None or albums == []:
+        albums = []
+        page['bar'] = False
+        flash("No matching song found, please try again")
+    else:
+        page['bar'] = True
+        flash('Found '+str(len(albums))+' results!')
+        session['logged_in'] = True
+
+
+        # NOTE :: YOU WILL NEED TO MODIFY THIS TO PASS THE APPROPRIATE VARIABLES or Go elsewhere
+    return render_template('searchitems/search_albums.html',
+                session=session,
+                page=page,
                 user=user_details,
                 albums=albums)
 
@@ -877,7 +1004,7 @@ def search_podcasts():
     if podcasts == None or podcasts == []:
         podcasts = []
         page['bar'] = False
-        flash("No matching albums found, please try again")
+        flash("No matching Podcast found, please try again")
     else:
         page['bar'] = True
         flash('Found '+str(len(podcasts))+' results!')
@@ -890,7 +1017,6 @@ def search_podcasts():
                 page=page,
                 user=user_details,
                 podcasts=podcasts)
-
 
 #####################################################
 #   Add Movie
