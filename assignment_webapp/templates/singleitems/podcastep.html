@@ -5,68 +5,68 @@
     Display All Relevant Podcast Episode Infromation including meta data
     -->
         {% if podcastep | length  > 0 %}
-        <!-- CONTAIN PODCAST EP TITLE + DATE PUBLISHED -->
-        <h2 class="title"> {{podcastep[0].podcast_episode_title}}  </h2>
-        Podcast episode ID is   {{podcastep[0].podcast_id}}
-        <br />
-        Podcast published on {{podcastep[0].podcast_episode_published_date}}
-        <br />
-        Podcast episode is {{podcastep[0].length}} minutes long.
-        <hr />
-        <br />
-        Podcast episode URL is {{podcastep[0].podcast_episode_uri}} .
+            <!-- CONTAIN PODCAST EP TITLE + DATE PUBLISHED -->
+            <h2 class="title"> {{podcastep[0].podcast_episode_title}}  </h2>
+            Podcast episode ID is   {{podcastep[0].podcast_id}}
+            <br />
+            Podcast published on {{podcastep[0].podcast_episode_published_date}}
+            <br />
+            Podcast episode is {{podcastep[0].length}} minutes long.
+            <hr />
+            <br />
+            Podcast episode URI is {{podcastep[0].podcast_episode_uri}} .
 
-        <h2 class="title"> Media Id {{podcastep[0].media_id}} </h2>
-        <br />
+            <h2 class="title"> Media Id {{podcastep[0].media_id}} </h2>
+            <br />
 
-        <audio id="webplayer" controls>
-            <source src={{podcastep[0].podcast_episode_uri}} type="audio/mpeg">
-            <source src={{podcastep[0].podcast_episode_uri}} type="audio/ogg">
-            <source src={{podcastep[0].podcast_episode_uri}} type="audio/wav">
-        </audio>
+            <audio id="webplayer" controls>
+                <source src={{podcastep[0].podcast_episode_uri}} type="audio/mpeg">
+                <source src={{podcastep[0].podcast_episode_uri}} type="audio/ogg">
+                <source src={{podcastep[0].podcast_episode_uri}} type="audio/wav">
+            </audio>
 
-        <button onclick="Continue()" type="button">Continue from previous session</button>
+            <button onclick="Continue()" type="button">Continue from previous session</button>
 
-        <script>
-        var webplayer = document.getElementById("webplayer");
-        function getCurTime() {
-          alert(webplayer.currentTime);
-        }
+            <script>
+            var webplayer = document.getElementById("webplayer");
+            function getCurTime() {
+              alert(webplayer.currentTime);
+            }
 
-        function Continue() {
-            {% if progress | length  > 0 %}
-                webplayer.currentTime = ((webplayer.duration) * ({{progress[0].progress}}/100));
+            function Continue() {
+                {% if progress | length  > 0 %}
+                    webplayer.currentTime = ((webplayer.duration) * ({{progress[0].progress}}/100));
+                {% endif %}
+            }
+
+            </script>
+
+            <h3> Artworks </h3>
+            {% for instance in PodcastEpisode %}
+                {% if instance.md_type_name == 'artwork' %}
+                <img src="{{instance.md_value}}" alt="image">
+                <br />© Amazon Public Domain 2019.
+                {% endif %}
+            {% endfor %}
+            <br />
+            <h3> Descriptions </h3>
+            {% for instance in PodcastEpisode %}
+                {% if instance.md_type_name == 'description' %}
+                <div>
+                    {{instance.md_value}}
+                </div>
             {% endif %}
-        }
-
-        </script>
-
-        <h3> Artworks </h3>
-        {% for instance in PodcastEpisode %}
-        {% if instance.md_type_name == 'artwork' %}
-        <img src="{{instance.md_value}}" alt="image">
-        <br />© Amazon Public Domain 2019.
-        {% endif %}
-        {% endfor %}
-        <br />
-        <h3> Descriptions </h3>
-        {% for instance in PodcastEpisode %}
-        {% if instance.md_type_name == 'description' %}
-        <div>
-            {{instance.md_value}}
-        </div>
-        {% endif %}
-        {% endfor %}
-        <br />
-        <h3> Genres </h3>
-        {% for instance in tvshow %}
-        {% if instance.md_type_name == 'film genre' %}
-        <div>
-            {{instance.md_value}}
-        </div>
-        {% endif %}
-        {% endfor %}
-        <div>
+            {% endfor %}
+            <br />
+            <h3> Genres </h3>
+            {% for instance in PodcastEpisode %}
+                {% if instance.md_type_name == 'podcast genre' %}
+                <div>
+                    {{instance.md_value}}
+                </div>
+                {% endif %}
+            {% endfor %}
+            <div>
 
             {% endif %}
 

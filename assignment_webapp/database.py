@@ -740,7 +740,7 @@ def get_podcast(podcast_id):
         # including all metadata associated with it                                 #
         #############################################################################
         sql = """
-        SELECT *
+        SELECT podcast_id, podcast_title, podcast_uri, podcast_last_updated, md_type_name, md_value
         FROM ((mediaserver.Podcast P JOIN mediaserver.PodcastMetaData PMD USING (podcast_id))
             JOIN mediaserver.MetaData MD USING (md_id))
             JOIN mediaserver.MetaDataType MDT USING (md_type_id)
@@ -785,7 +785,8 @@ def get_all_podcasteps_for_podcast(podcast_id):
         #############################################################################
 
         sql = """
-        SELECT media_id, podcast_id, podcast_episode_title, podcast_episode_URI, podcast_episode_published_date, podcast_episode_length
+        SELECT media_id, podcast_id, podcast_episode_title, podcast_episode_URI,
+            podcast_episode_published_date, podcast_episode_length
         FROM mediaserver.PodcastEpisode PE
         WHERE PE.podcast_id = %s
         ORDER BY podcast_episode_published_date DESC
@@ -1045,7 +1046,7 @@ def get_tvshow(tvshow_id):
         # including all relevant metadata       #
         #############################################################################
         sql = """
-        SELECT S.tvshow_id, md_type_name
+        SELECT S.tvshow_id, tvshow_title, md_type_name
         FROM ((mediaserver.MetaDataType MDT JOIN mediaserver.MetaData MD USING (md_type_id))
             JOIN mediaserver.MediaItemMetaData MIMD USING (md_id))
             JOIN mediaserver.TVShowMetaData  TM using (md_id)
