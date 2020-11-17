@@ -1046,13 +1046,13 @@ def get_tvshow(tvshow_id):
         # including all relevant metadata       #
         #############################################################################
         sql = """
-        SELECT S.tvshow_id, tvshow_title, md_type_name
+	SELECT DISTINCT S.tvshow_id,md_type_name , md_value
         FROM ((mediaserver.MetaDataType MDT JOIN mediaserver.MetaData MD USING (md_type_id))
             JOIN mediaserver.MediaItemMetaData MIMD USING (md_id))
             JOIN mediaserver.TVShowMetaData  TM using (md_id)
             JOIN mediaserver.Tvshow S ON (TM.tvshow_id = S.tvshow_id)
             JOIN mediaserver.MediaItem USING (media_id)
-        WHERE S.tvshow_id = %s;
+        WHERE S.tvshow_id = %s
         """
 
         r = dictfetchall(cur,sql,(tvshow_id,))
