@@ -16,6 +16,7 @@ import database
 
 user_details = {}                   # User details kept for us
 session = {}                        # Session information (logged in state)
+session['logged_in'] = False
 page = {}                           # Determines the page information
 
 # Initialise the application
@@ -474,7 +475,7 @@ def single_podcastep(media_id):
     global user_details
 
     progress = None
-    if ('logged_in' in session or session['logged_in']):
+    if (session['logged_in']):
         progress = database.get_podcastep_progress(media_id, user_details['username'])
     if progress == None:
         progress = []
