@@ -807,7 +807,7 @@ def search_songs():
 
 #####################################################
 #   Functionality 3
-#   Search Song
+#   Search Album
 #####################################################
 
 @app.route('/search/album', methods=['POST','GET'])
@@ -823,7 +823,7 @@ def search_albums():
     # TODO  #
     #########
 
-    page['title'] = 'Match Song'
+    page['title'] = 'Match Album'
 
     albums = None
     if(request.method == 'POST'):
@@ -834,7 +834,7 @@ def search_albums():
     if albums == None or albums == []:
         albums = []
         page['bar'] = False
-        flash("No matching albums found, please try again")
+        flash("No matching Album found, please try again")
     else:
         page['bar'] = True
         flash('Found '+str(len(albums))+' results!')
@@ -877,7 +877,7 @@ def search_podcasts():
     if podcasts == None or podcasts == []:
         podcasts = []
         page['bar'] = False
-        flash("No matching albums found, please try again")
+        flash("No matching Podcast found, please try again")
     else:
         page['bar'] = True
         flash('Found '+str(len(podcasts))+' results!')
@@ -890,7 +890,6 @@ def search_podcasts():
                 page=page,
                 user=user_details,
                 podcasts=podcasts)
-
 
 #####################################################
 #   Add Movie
