@@ -30,8 +30,11 @@
         <form class="Add" method="POST" action="{{url_for('add_song')}}">
 
             Song title: <input type="text" name="song_title" value="empty song" placeholder="Song Name">
-            Song length: <input type="text" name="song_length" value="0" placeholder="Length of song">
+
+            <label for="song length">Song length:</label>
+            <input type="number" id="song_length" name="song_length" min="0" max="1000000" value=0>
             <br/>
+
             Storage location: <input type="text" name="storage_location" value="no location" placeholder="Place to store song">
 
             <label for="artist_id">Artist id:</label>
@@ -40,7 +43,7 @@
                 <option value="{{instance.artist_id}}">{{instance.artist_id}}</option>
             {% endfor %}
             </select>
-
+            
             Description: <input type="text" name="description" value="no description" placeholder="Description">
             <br/>
             Song Genre: <input type="text" name="song_genre" value="pop" placeholder="Genre name">
